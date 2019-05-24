@@ -1,0 +1,163 @@
+<html>
+    <head>
+        <title>
+            Ecommerce Website
+        </title>
+
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script>
+function showResult(Value){
+    var query = Value; 
+
+    if (query == "") {
+
+        $("#search_results").html("");
+
+        $("#search_results").hide();
+    }
+
+    else {
+
+        $.ajax({
+            type: "GET",
+
+            
+            url: "http://localhost:8000/search?query="+ query,
+
+       
+
+
+            success: function(html) {
+
+                //Assigning result to "display" div in "search.php" file.
+
+                $("#search_results").html(html).show();
+                console.log(html)
+
+            }
+        });
+        }
+
+          }
+          
+            </script>
+       
+    </head>
+
+    <header>
+
+            <a href="/">Home</a>
+            <a href="/categories">Categories</a>
+            <a href="/products">Products</a>
+            <a href="/cart" id="cart_link">Cart</a>
+            <button onclick="EmptyCart()" id="empty_cart_btn">Empty Cart</button>
+            <button onclick="Logout()" style="display: inline-block;" id="logout_button">Logout</button>
+            <button onclick="Login()" id="login_btn">Login</button>
+        
+       
+    </header>
+
+    
+    <body>
+
+
+
+           
+          
+          
+
+
+<form action="/search" method="GET">
+            <input type="text" id="searchBar" size="60" placeholder="Search over 1 crore products.." onkeyup="showResult(this.value)">
+            <div id="search_results"></div>
+            <input type="submit" value="Search">
+        </form>
+
+
+
+        {{if .}}
+        <h1>Welcome {{.FirstName}}!</h1>
+        {{end}}
+      
+
+        <script>
+                function EmptyCart(){
+                  
+var r = confirm("Sure you want to empty cart?");
+if (r == true) {
+    document.cookie = "ecommerce_cart= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+        window.location.href= document.location.href;
+} else {
+  
+}
+                
+                }
+            function Logout(){
+                var r = confirm("Sure you want to logout?");
+if (r == true) {
+    document.cookie = "ecommerce_user= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+        window.location.href= document.location.href;
+} else {
+  
+}
+    }
+    
+    function Login(){
+        window.location.href="/login";
+    }
+    var button = document.createElement("button");
+    var cookies = document.cookie;
+    var array = cookies.split(";");
+    
+    for (var i=0; i<array.length; i++){
+    var arr2 = array[i].split("=");
+    
+    var n = arr2[0].localeCompare("ecommerce_user");
+    var p = arr2[0].localeCompare(" ecommerce_user");
+    
+    if(n==-1 || n==1 || p==-1 || p==1){
+        var logout_button = document.getElementById("logout_button");
+       logout_button.style.display="none";
+       var login_btn = document.getElementById("login_btn");
+       login_btn.style.display="inline-block";
+    }
+    
+    
+    if (n==0 || p==0){
+       //add logout button
+    
+       var logout_button = document.getElementById("logout_button");
+       logout_button.style.display="inline-block";
+       var login_btn = document.getElementById("login_btn");
+       login_btn.style.display="none";
+    
+    }
+    
+    var m = arr2[0].localeCompare(" ecommerce_cart");
+    
+    
+    var o = arr2[0].localeCompare("ecommerce_cart");
+    if (m==0 || o==0){
+        var arr3 = arr2[1].split("|");
+    var l = arr3.length;
+    var cart = document.getElementById("cart_link");
+    cart.innerHTML = "Cart (" + (l-1) + " )";
+    var empty_cart_btn = document.getElementById("empty_cart_btn");
+        empty_cart_btn.style.display="inline-block";
+    } else{
+        var empty_cart_btn = document.getElementById("empty_cart_btn");
+        empty_cart_btn.style.display="none";
+    
+    }
+    
+    
+    }
+    </script>
+       
+        
+    </body>
+    
+
+  
+
+</html>

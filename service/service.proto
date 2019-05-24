@@ -1,0 +1,352 @@
+syntax="proto3";
+
+package service;
+
+
+message Category{
+    string Name = 1;
+    int32 ID = 2;
+    repeated Category ParentCategories = 3;
+    repeated string ImagePaths = 4;
+
+    repeated Product Products = 5;
+
+}
+message VariantProduct{
+    string Name = 1;
+    int32 CategoryID = 2;
+    int32 ID= 3;
+
+    repeated string  ImagePaths = 4;
+
+    int32 UnitPrice = 5;
+    int32 MRP = 6;
+    int32 Cashback = 7;
+    string Unit = 8;
+
+    int32 MemberPrice = 9;
+
+    string MainProductName = 10;
+    float Size = 11;
+
+    bool Branded = 12;
+    bool Unbranded= 13;
+}
+
+message Product{
+    string Name = 1;
+
+    repeated VariantProduct Variants = 2;
+}
+
+message Cart{
+    repeated int32 ProductIDs = 1;
+    repeated int32 Quantities=2;
+    repeated string Comments = 3;
+    
+
+
+}
+
+message Order{
+    Cart Cart =1;
+    string FinalComment = 2;
+    int64 DeliveryTimeUnix =3;
+ //   string PaymentMode = 4;
+    User UserDetails = 5;
+    int32 Total = 6;
+    int32 Shipping =7;
+    int32 GrandTotal = 8;
+
+}
+
+message LoginDetails{
+    int64 TimeUnix = 1;
+    string IP = 2;
+}
+
+message User{
+    string FirstName = 1;
+    string LastName = 2;
+
+    int64 Phone = 3;
+    string Email = 4;
+    
+    string Address1 = 5;
+    string Address2 = 6;
+    
+    string City = 7;
+    string State = 8;
+    string Country = 9;
+    int64 Pincode = 10;
+
+    Cart Cart =11;
+
+    int32 Funds = 12;
+
+    bool Member = 13;
+
+    repeated LoginDetails LoginDetails = 14;
+
+    string Password = 15;
+
+    repeated SuccessOrder OrdersHistory = 16;
+    string ID = 17;
+
+    repeated VariantProduct WishList = 18;
+
+    repeated VariantProduct ProductVisitHistory = 19;
+
+    repeated Category CategoryVisitHistory = 20;
+
+}
+message SignupRequest{
+    User User =1;
+}
+
+message SignupResponse{
+    User User = 1;
+    bool Success = 2;
+}
+message LoginRequest{
+    string Email = 1;
+    string Password = 2;
+    bool ToKeepLoggedIn = 3;
+    
+}
+message LoginResponse{
+    User User = 1;
+}
+message LogoutRequest{
+    User User = 1;
+}
+message LogoutResponse{
+    bool Success = 1;
+}
+
+message AddToCartRequest{
+    int32 ProductID = 1;
+    int32 Quantity = 2;
+    string Comments =3;
+    string UserID = 4;
+}
+
+message AddToCartResponse{
+   
+    bool Success = 1;
+
+}
+message ReadCartRequest{
+
+}
+message ReadCartResponse{
+    Cart Cart =1;
+}
+
+message UpdateCartRequest{
+    Cart Cart = 1;
+}
+message UpdateCartResponse{
+    Cart Cart = 2;
+}
+message EmptyCartRequest{
+
+    
+
+}
+message EmptyCartResponse{
+    bool Success = 1;
+}
+
+message CheckoutRequest{
+    Cart Cart =1;
+}
+message CheckoutResponse{
+    Order Order = 1;
+    bool Success = 2;
+}
+
+message EditUserRequest{
+ User User = 1;
+}
+message EditUserResponse{
+    User UserBefore = 1;
+    bool Success = 2;
+    User UserAfter = 3;
+}
+
+message PayRequest{
+    User User = 1;
+    Order Order = 2;
+
+}
+
+message SuccessOrder{
+    Cart Cart =1;
+    string FinalComment = 2;
+    int64 DeliveryTimeUnix =3;
+    string PaymentMode = 4;
+    User UserDetails = 5;
+    int32 Total = 6;
+    int32 Shipping =7;
+    int32 GrandTotal = 8;
+
+    string Progress = 9;
+
+    string TrackDetails = 10;
+}
+message PayResponse{
+    Order Order = 1;
+    bool Success = 2;
+    SuccessOrder  SuccessOrder = 3;
+}
+
+message UserDetailsRequest{
+    string UserID =1;
+}
+message UserDetailsResponse{
+    User User = 2;
+}
+
+message AddFundsRequest{
+    User User = 1;
+    float Funds = 2;
+}
+
+message AddFundsResponse{
+    bool Success = 1;
+    User User = 2;
+    float Funds = 3;
+}
+
+message AddToWishListRequest{
+    User User = 1;
+    VariantProduct Product = 2;
+}
+
+message AddToWishListResponse{
+    User User = 1;
+    VariantProduct Product = 2;
+    bool Success = 3;
+}
+
+message ShowFeaturedRequest{
+    string UserID = 1;
+    string UserIP = 2;
+}
+message ShowFeaturedResponse{
+    VariantProduct Product = 1;
+}
+
+message ShowFlashSaleProductsRequest{
+    string UserID = 1;
+    string UserIP = 2;
+}
+
+message ShowFlashSaleProductsResponse{
+    VariantProduct Product = 1;
+}
+
+message ShowSaleProductsRequest{
+    string UserID = 1;
+    string UserIP = 2;
+}
+
+message ShowSaleProductsResponse{
+    VariantProduct Product = 1;
+}
+
+message ShowCategoriesRequest{
+    string UserID = 1;
+    string UserIP = 2;
+}
+message ShowCategoriesResponse{
+    Category Category = 1;
+}
+
+message ShowProductsRequest{
+    string UserID = 1;
+    string UserIP = 2;
+}
+
+message ShowProductsResponse{
+    VariantProduct Product = 1;
+}
+
+message ShowTopSellerProductsRequest{
+    string UserID = 1;
+    string UserIP = 2;
+}
+
+message ShowTopSellerProductsResponse{
+    VariantProduct Product = 1;
+}
+
+message ShowRecommendedProductsRequest{
+
+    string UserID = 1;
+    string UserIP = 2;
+    VariantProduct Product = 3;
+}
+
+message ShowRecommendedProductsResponse{
+
+    VariantProduct Product = 1;
+}
+
+service Ecommerce{
+
+
+    //Login related
+    rpc Signup(SignupRequest) returns (SignupResponse); //done
+
+    rpc Login(LoginRequest) returns(LoginResponse); // done
+
+    //rpc Logout(LogoutRequest) returns(LogoutResponse);
+
+//-----------------------------------------------------------------
+
+    rpc AddToCart(AddToCartRequest) returns(AddToCartResponse);
+
+    rpc ReadCart(ReadCartRequest) returns(ReadCartResponse);
+
+    rpc UpdateCart(UpdateCartRequest) returns(UpdateCartResponse);
+
+    rpc EmptyCart(EmptyCartRequest) returns(EmptyCartResponse);
+
+    rpc Checkout(CheckoutRequest) returns(CheckoutResponse);
+
+    
+//user related
+
+   // rpc UserDetails(UserDetailsRequest) returns (UserDetailsResponse);
+    
+   // rpc EditUser(EditUserRequest) returns(EditUserResponse);
+
+    //rpc AddFunds(AddFundsRequest) returns (AddFundsResponse);
+
+    //rpc AddToWishList(AddToWishListRequest) returns(AddToWishListResponse);
+
+    //---------------------------------------------------------------------------
+
+    //payment related
+    rpc Pay(PayRequest) returns(PayResponse);
+
+    //-------------------------------------------------------------------
+
+    //products related
+   // rpc ShowFeatured(ShowFeaturedRequest) returns(stream ShowFeaturedResponse);
+   // rpc ShowFlashSaleProducts(ShowFlashSaleProductsRequest) returns (stream ShowFlashSaleProductsResponse);
+
+    //rpc ShowSaleProducts(ShowSaleProductsRequest) returns (stream ShowSaleProductsResponse);
+
+    //rpc ShowCategories(ShowCategoriesRequest) returns(stream ShowCategoriesResponse);
+
+    //rpc ShowProducts(ShowProductsRequest) returns(stream ShowProductsResponse);
+
+    //rpc ShowTopSellerProducts(ShowTopSellerProductsRequest) returns(stream ShowTopSellerProductsResponse);
+
+    //rpc ShowRecommendedProducts(ShowRecommendedProductsRequest) returns(stream ShowRecommendedProductsResponse);
+
+    //------------------------------------------------------------------------------------------
+}

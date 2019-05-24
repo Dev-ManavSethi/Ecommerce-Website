@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <title>Search Results</title>
+    </head>
+    <body>
+
+        <p>Search Results</p>
+        {{range .}}
+        <h3 style="cursor: pointer;" onclick=OpenProduct(this) pID={{.ID}}>{{.Name}}</h3>
+        {{end}}
+
+        <script>
+        function OpenProduct(product){
+
+window.location.href="/product?id=" + product.getAttribute("pID");
+
+        }</script>
+    </body>
+</html>

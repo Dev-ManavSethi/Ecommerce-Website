@@ -1,0 +1,17 @@
+runtime: go
+api_version: go1
+
+handlers:
+
+# All URLs are handled by the Go application script
+- url: /.*
+  script: _go_app
+  
+
+
+  
+#env: flex
+
+#automatic_scaling:
+ # min_num_instances: 1
+
